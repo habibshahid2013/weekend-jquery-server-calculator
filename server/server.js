@@ -4,7 +4,8 @@ const express = require('express');
 
 const app = express();
 
-app.listen(5000,function(){
+const port = 5000;
+app.listen(port, function(){
     console.log('Calcualator app is up and running 📲');
     
 });
