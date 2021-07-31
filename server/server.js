@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
-const mathInput = require('mathInput') 
+const mathInput = require('./module/mathInput');
 
 let firstInput = 0; 
 let secondInput = 0; 
@@ -21,18 +21,23 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/inputsButton', (req, res) =>{
+    console.log('Still waiting on GET');
     firstInput = req.body.num1Input;
     secondInput = req.body.num1Input;
     button = req.body.button;
-    console.log();
+    console.log(logicNeeded());
     res.sendStatus(200)
 });
+
+app.get('/mathresults', (req, res) =>{
+    res.send(mathInput);
+});
+
 
 
 function logicNeeded(){
     if (button == "addBtn"){
         let sum = Number(firstInput) + Number(secondInput);
-        mathInput
         mathInput.push(sum)
         return sum
     }
@@ -43,7 +48,7 @@ function logicNeeded(){
     }
     else if (button == "multiplyBtn") {
         let sum = Number(firstInput) * Number(secondInput);
-       mathInput.push(sum)
+        mathInput.push(sum)
         return sum
     }
     else if (button == "divideBtn") {

@@ -53,6 +53,7 @@ $.ajax({
     console.log('POST /inputsButtons', response);
 
 }).catch(error => {
+    console.log('POSt /inputsButton', error);
     $('body').append(`
     <h2>
     the numbers added aren't correct! review your inputs!
@@ -60,6 +61,19 @@ $.ajax({
     `  
     );    
 });
+
+function getResults(){
+    $.ajax({
+        method: 'GET'
+        url: '/getresults'
+    }).then((response) => {
+        console.log('GET /getresults response', response);
+        let resultsSum = $('#resultsSum');
+
+        //
+
+    })
+}
 //console.log(inputObject);
 
 }
