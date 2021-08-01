@@ -3,5 +3,13 @@ body{
 }
 
 h1{
-    background-color: red;
+   
+}
+
+input{ 
+    border-radius: 30px;
+}
+
+button{
+    background-color: lightblue;
 }

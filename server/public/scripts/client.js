@@ -2,6 +2,7 @@ $(document).ready(onReady);
 let clickedButton = "";
 let firstInput = 0 ;
 let secondInput = 0 ;
+let symbolChange = "";
 
 //onReady function pulls in the html ids using Jquery 
 function onReady(){
@@ -32,6 +33,7 @@ function reassignBtn(){
 
 }
 let tempArray = []
+let inputObject = {}
 
 console.log('what the button var at', clickedButton);
 
@@ -41,7 +43,7 @@ function totalAssign(){
     firstInput = $('#num1Input').val();
     secondInput = $('#num2Input').val();
 
-    let inputObject = {
+    inputObject = {
         num1Input: firstInput,
         num2Input: secondInput,
         button: clickedButton
@@ -82,9 +84,26 @@ function getResults() {
         console.log('GET /mathresults response', response);
        
         let sumResults = $('#resultsSum');
-        // sumResults.empty();
         sumResults.text(`${response[0]}`);
+        let pastResults = $('#pastResults')
         
+        //create a If statement to change the button into
+        //the needed symbol to be added unto the DOM
+        if (clickedButton == "addBtn") {
+            symbolChange = "+";
+        }
+        else if (clickedButton == "subtractBtn") {
+            symbolChange = "-";
+        }
+        else if (clickedButton == "divideBtn") {
+            symbolChange = "/";
+        }
+        else if (clickedButton == "multiplyBtn") {
+            symbolChange = "*";
+        }
+        pastResults.append(`
+        <li> ${inputObject.num1Input} ${symbolChange} ${inputObject.num2Input} </li>
+       `)
 
     })
 }
