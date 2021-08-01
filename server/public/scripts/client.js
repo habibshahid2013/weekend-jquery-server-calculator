@@ -1,12 +1,12 @@
 $(document).ready(onReady);
 let clickedButton = "";
-let changeVar = "";
 let firstInput = 0 ;
 let secondInput = 0 ;
 
+//onReady function pulls in the html ids using Jquery 
 function onReady(){
     console.log('So Ready 🥙');
-
+    //pulling 
     $('#addBtn').on('click', reassignBtn)
     $('#subtractBtn').on('click', reassignBtn)
     $('#multiplyBtn').on('click', reassignBtn)
@@ -14,7 +14,8 @@ function onReady(){
     $('#clearBtn').on('click', reassignBtn)
     $('#totalBtn').on('click', totalAssign)
 }
-
+//the the reassign function brings in the clicked Id's buttons 
+//and has it go into a variable clickedButton 
 function reassignBtn(){
     if ($(this).attr('id') == "addBtn"){
         clickedButton = "addBtn";
@@ -30,10 +31,12 @@ function reassignBtn(){
     }
 
 }
-const tempArray = []
+let tempArray = []
 
 console.log('what the button var at', clickedButton);
 
+//the totalAssign function puts the inputs into an object
+//preparing to send it through the server.
 function totalAssign(){
     firstInput = $('#num1Input').val();
     secondInput = $('#num2Input').val();
@@ -43,16 +46,18 @@ function totalAssign(){
         num2Input: secondInput,
         button: clickedButton
     }
+    //capturing information to test within test array
     tempArray.push(inputObject)
     console.log(tempArray);
-
+//we use the Ajax method to send the object through '/inputsButton' 
+//into the server with response. 
 $.ajax({
     method: 'POST',
     url:'/inputsButton',
     data: inputObject,
 }).then((response) => {
     console.log('POST /inputsButtons', response);
-
+    getResults();
 }).catch(error => {
     console.log('POSt /inputsButton', error);
     $('body').append(`
@@ -62,33 +67,24 @@ $.ajax({
     `  
     );    
 });
-//console.log(inputObject);
+
 
 }
+
 function getResults() {
+    //mathInputs are sent here from the server through /mathresults
+    //which become the response. A variable is created to math the id on the DOM.
+    //then the text is pushed onto the DOM with the response index in interpolation
     $.ajax({
         method: 'GET',
         url: '/mathresults'
     }).then((response) => {
         console.log('GET /mathresults response', response);
-        let resultsSum = $('#resultsSum');
-        if (response[2] == "add") {
-            changeVar = "+";
-        }
-        else if (response[2] == "minus") {
-            changeVar = "-";
-        }
-        else if (response[2] == "divide") {
-            changeVar = "/";
-        }
-        else if (response[2] == "multiply") {
-            changeVar = "*";
-        }
-        resultsSum.empty();
-        resultsSum.append(response[0]);
-
-
-        //
+       
+        let sumResults = $('#resultsSum');
+        // sumResults.empty();
+        sumResults.text(`${response[0]}`);
+        
 
     })
 }
