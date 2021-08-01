@@ -6,11 +6,7 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
-const mathInput = require('./module/mathInput');
-
-let firstInput = 0; 
-let secondInput = 0; 
-let button = "";
+let mathInput = []
 
 
 //static assets
@@ -21,42 +17,72 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/inputsButton', (req, res) =>{
-    console.log('Still waiting on GET');
-    firstInput = req.body.num1Input;
-    secondInput = req.body.num1Input;
-    button = req.body.button;
-    console.log(logicNeeded());
+    console.log('Still waiting on GET', req.body);
+    // newReqBody.num1Input = req.body.num1Input;
+    // newReqBody.num2Input = req.body.num1Input;
+    // button = req.body.button;
+    // logicNeeded();
+    let newReqBody = req.body; 
+    
+    if (newReqBody.button == "addBtn") {
+        let sum = Number(newReqBody.num1Input) + Number(newReqBody.num2Input);
+        mathInput = []
+        mathInput.push(sum)
+        
+    }
+    else if (newReqBody.button == "subtractBtn") {
+        let sum = Number(newReqBody.num1Input) - Number(newReqBody.num2Input);
+        mathInput = []
+        mathInput.push(sum)
+        
+    }
+    else if (newReqBody.button == "multiplyBtn") {
+        let sum = Number(newReqBody.num1Input) * Number(newReqBody.num2Input);
+        mathInput = []
+        mathInput.push(sum)
+      
+    }
+    else if (newReqBody.button == "divideBtn") {
+        let sum = Number(newReqBody.num1Input) / Number(newReqBody.num2Input);
+        mathInput = []
+        mathInput.push(sum)
+    }
+
     res.sendStatus(200)
 });
 
+//sending MathInputs to the GET function on the client side. 
 app.get('/mathresults', (req, res) =>{
+    console.log('see the path', req.route.path);
+    
     res.send(mathInput);
+
 });
 
 
 
-function logicNeeded(){
-    if (button == "addBtn"){
-        let sum = Number(firstInput) + Number(secondInput);
-        mathInput.push(sum)
-        return sum
-    }
-    else if (button == "subtractBtn") {
-        let sum = Number(firstInput) - Number(secondInput);
-        mathInput.push(sum)
-        return sum
-    }
-    else if (button == "multiplyBtn") {
-        let sum = Number(firstInput) * Number(secondInput);
-        mathInput.push(sum)
-        return sum
-    }
-    else if (button == "divideBtn") {
-        let sum = Number(firstInput) / Number(secondInput);
-        mathInput.push(sum)
-        return sum
-    }
-}
+// function logicNeeded(){
+//     if (button == "addBtn"){
+//         let sum = Number(newReqBody.num1Input) + Number(newReqBody.num2Input);
+//         mathInput.push(sum)
+//         return sum
+//     }
+//     else if (button == "subtractBtn") {
+//         let sum = Number(newReqBody.num1Input) - Number(newReqBody.num2Input);
+//         mathInput.push(sum)
+//         return sum
+//     }
+//     else if (button == "multiplyBtn") {
+//         let sum = Number(newReqBody.num1Input) * Number(newReqBody.num2Input);
+//         mathInput.push(sum)
+//         return sum
+//     }
+//     else if (button == "divideBtn") {
+//         let sum = Number(newReqBody.num1Input) / Number(newReqBody.num2Input);
+//         mathInput.push(sum)
+//         return sum
+//     }
+// }
 
 const port = 5000;
 app.listen(port, function(){

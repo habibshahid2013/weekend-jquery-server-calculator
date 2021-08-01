@@ -1,5 +1,6 @@
 $(document).ready(onReady);
 let clickedButton = "";
+let changeVar = "";
 let firstInput = 0 ;
 let secondInput = 0 ;
 
@@ -61,19 +62,33 @@ $.ajax({
     `  
     );    
 });
+//console.log(inputObject);
 
-function getResults(){
+}
+function getResults() {
     $.ajax({
-        method: 'GET'
-        url: '/getresults'
+        method: 'GET',
+        url: '/mathresults'
     }).then((response) => {
-        console.log('GET /getresults response', response);
+        console.log('GET /mathresults response', response);
         let resultsSum = $('#resultsSum');
+        if (response[2] == "add") {
+            changeVar = "+";
+        }
+        else if (response[2] == "minus") {
+            changeVar = "-";
+        }
+        else if (response[2] == "divide") {
+            changeVar = "/";
+        }
+        else if (response[2] == "multiply") {
+            changeVar = "*";
+        }
+        resultsSum.empty();
+        resultsSum.append(response[0]);
+
 
         //
 
     })
-}
-//console.log(inputObject);
-
 }
