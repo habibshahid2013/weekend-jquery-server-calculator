@@ -3,6 +3,8 @@ let clickedButton = "";
 let firstInput = 0 ;
 let secondInput = 0 ;
 let symbolChange = "";
+let tempArray = []
+let inputObject = {}
 
 //onReady function pulls in the html ids using Jquery 
 function onReady(){
@@ -32,8 +34,6 @@ function reassignBtn(){
     }
 
 }
-let tempArray = []
-let inputObject = {}
 
 console.log('what the button var at', clickedButton);
 
@@ -102,7 +102,7 @@ function getResults() {
             symbolChange = "*";
         }
         pastResults.append(`
-        <li> ${inputObject.num1Input} ${symbolChange} ${inputObject.num2Input} </li>
+        <li> ${inputObject.num1Input} ${symbolChange} ${inputObject.num2Input} = ${response[0]}</li>
        `)
 
     })
