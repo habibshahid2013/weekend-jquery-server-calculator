@@ -4,4 +4,3 @@
 [] add html and set up html 
 []add public js and Jquery files and set up script scr
 [] test that everything is working 
-[]

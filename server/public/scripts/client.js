@@ -51,24 +51,24 @@ function totalAssign(){
     //capturing information to test within test array
     tempArray.push(inputObject)
     console.log(tempArray);
-//we use the Ajax method to send the object through '/inputsButton' 
-//into the server with response. 
-$.ajax({
-    method: 'POST',
-    url:'/inputsButton',
-    data: inputObject,
-}).then((response) => {
-    console.log('POST /inputsButtons', response);
-    getResults();
-}).catch(error => {
-    console.log('POSt /inputsButton', error);
-    $('body').append(`
-    <h2>
-    the numbers added aren't correct! review your inputs!
-    <h2>
-    `  
-    );    
-});
+    //we use the Ajax method to send the object through '/inputsButton' 
+    //into the server with response. 
+    $.ajax({
+        method: 'POST',
+        url:'/inputsButton',
+        data: inputObject,
+    }).then((response) => {
+        console.log('POST /inputsButtons', response);
+        getResults();
+    }).catch(error => {
+        console.log('POSt /inputsButton', error);
+        $('body').append(`
+        <h2>
+        the numbers added aren't correct! review your inputs!
+        <h2>
+        `  
+        );    
+    });
 
 
 }
@@ -84,7 +84,7 @@ function getResults() {
         console.log('GET /mathresults response', response);
        
         let sumResults = $('#resultsSum');
-        sumResults.text(`${response[0]}`);
+        sumResults.text(`${response}`);
         let pastResults = $('#pastResults')
         
         //create a If statement to change the button into
