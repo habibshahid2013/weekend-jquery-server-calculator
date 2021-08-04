@@ -16,6 +16,7 @@ function onReady(){
     $('#divideBtn').on('click', reassignBtn)
     $('#clearBtn').on('click', reassignBtn)
     $('#totalBtn').on('click', totalAssign)
+    getHistory();
 }
 //the the reassign function brings in the clicked Id's buttons 
 //and has it go into a variable clickedButton 
@@ -59,7 +60,10 @@ function totalAssign(){
         data: inputObject,
     }).then((response) => {
         console.log('POST /inputsButtons', response);
+        // It's important that these functions get POST to the server. 
+        //before it gets appended for that it can also be on the server side in case of a client failure.
         getResults();
+        getHistory();
     }).catch(error => {
         console.log('POSt /inputsButton', error);
         $('body').append(`
@@ -85,7 +89,6 @@ function getResults() {
        
         let sumResults = $('#resultsSum');
         sumResults.text(`${response}`);
-        let pastResults = $('#pastResults')
         
         //create a If statement to change the button into
         //the needed symbol to be added unto the DOM
@@ -101,9 +104,39 @@ function getResults() {
         else if (clickedButton == "multiplyBtn") {
             symbolChange = "*";
         }
-        pastResults.append(`
-        <li> ${inputObject.num1Input} ${symbolChange} ${inputObject.num2Input} = ${response[0]}</li>
-       `)
 
+    })
+}
+
+//Here I added  the getHistory function which we took the history of the logic
+function getHistory(){
+    $.ajax({
+        method: 'Get',
+        url: '/mathhistory'
+        }).then((response) =>{
+            console.log('GET mathhistory response', response);
+            //we make a variable to pull in the pastresults id from the DOM
+            let pastResults = $('#pastResults');
+            pastResults.empty();
+            // A loop is set up here to to grab the responses
+            for(let push of response){
+                //This if statement is going through the response btn and changing the conversions
+                if (push.numBtn == "addBtn") {
+                    symbolChange = "+";
+                }
+                else if (push.numBtn == "subtractBtn") {
+                    symbolChange = "-";
+                }
+                else if (push.numBtn == "divideBtn") {
+                    symbolChange = "/";
+                }
+                else if (push.numBtn == "multiplyBtn") {
+                    symbolChange = "*";
+                }
+                //here we append to pastresults and add the response with push that shares the object
+                pastResults.append(`
+        <li> ${push.num1} ${symbolChange} ${push.num2} = ${push.sum}</li>
+    `)
+            }
     })
 }
